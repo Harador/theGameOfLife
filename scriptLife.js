@@ -14,8 +14,8 @@ const aboutContent = document.getElementById('aboutContent');
 //Глобальные параметры
 let canW = 300;
 let canH = 450;
-let cellSize = 15;
-let interval = 40;
+let cellSize = 10;
+let interval = 100;
 let timer;
 let wCells = canW / cellSize;
 let hCells = canH / cellSize;
@@ -28,9 +28,10 @@ aboutButton.addEventListener('click', function () {
     aboutButton.classList.toggle('active');
 })
 resetBut.addEventListener('click', function () {
+    clearTimeout(timer);
+    console.log(timer)
     clearCanvas();
     matrix = getMatrix();
-    //ДОБАВИТЬ ОСТАНОВКУ ЦИКЛА
 })
 canvas.addEventListener('mousedown', function (event) {
     brushPaintCells(event);
@@ -41,11 +42,18 @@ canvas.addEventListener('mousedown', function (event) {
         canvas.onmousemove = null;
     }
 });
+startBut.addEventListener('click', function () {
+    Life();
+});
+
+
 
 //Логика игры
+
 function Life() {
     let matrix2 = [];
     for (let i = 0; i < hCells; i++) {
+        matrix2[i] = [];
         for (let j = 0; j < wCells; j++) {
             let sum = sumNeighbors(matrix, i, j)
             let cell = matrix[i][j]
@@ -57,6 +65,21 @@ function Life() {
                 matrix2[i][j] = 1;
             } else {
                 matrix2[i][j] = 0;
+            }
+        }
+    }
+    matrix = matrix2;
+    clearCanvas();
+    drawMatrix();
+    timer = setTimeout(Life, interval);
+}
+
+
+function drawMatrix() {
+    for (let i = 0; i < hCells; i++) {
+        for (let j = 0; j < wCells; j++) {
+            if (matrix[i][j] == 1) {
+                drawCell(j * cellSize, i * cellSize)
             }
         }
     }
