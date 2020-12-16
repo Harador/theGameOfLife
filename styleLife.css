@@ -13,7 +13,6 @@ canvas {
     background-color: black;
 }
 .settings {
-    margin-top: 10px;
     display: flex;
     width: 100%;
     border: 3px solid black;
@@ -84,4 +83,10 @@ canvas {
 
 .warning {
     color: rgb(167, 12, 12);
+}
+
+#loop {
+    margin: 5px 0 5px;
+    color: rgba(255, 255, 255, 0.849);
+    font-size: 18px;
 }

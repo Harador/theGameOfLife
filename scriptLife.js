@@ -10,19 +10,19 @@ const sizeBut = document.getElementById('size');
 const densityBut = document.getElementById('cellSize');
 const aboutButton = document.getElementById('aboutButton');
 const aboutContent = document.getElementById('aboutContent');
-//let loopCounter = document.getElementById('loop');
+let loopCounter = document.getElementById('loop');
 
 //Глобальные параметры
 let canW = 300;
 let canH = 450;
-let cellSize = 10;
-let interval = 100;
+let cellSize = 5;
+let interval = 50;
 let timer;
 let isTimer = false;
 let wCells = canW / cellSize;
 let hCells = canH / cellSize;
+let loop = 0;
 let matrix = getMatrix();
-
 //События
 aboutButton.addEventListener('click', function () {
     aboutContent.classList.toggle('deactive');
@@ -34,6 +34,10 @@ resetBut.addEventListener('click', function () {
     clearCanvas();
     matrix = getMatrix();
     startBut.innerHTML = "Старт";
+    if (loop > 0) {
+        loop = 0;
+        loopCounter.innerHTML = 'цикл неактивен';
+    }
 })
 canvas.addEventListener('mousedown', function (event) {
     brushPaintCells(event);
@@ -76,6 +80,11 @@ generateBut.addEventListener('click', function () {
     matrix = getMatrix();
     getRandomMatrix();
     drawMatrix();
+    if (loop > 0) {
+        loop = 0;
+        loopCounter.innerHTML = 'цикл неактивен';
+    }
+    startBut.innerHTML = 'Старт';
 })
 
 
@@ -112,6 +121,8 @@ function Life() {
             }
         }
     }
+    loop += 1;
+    loopCounter.innerHTML = `${loop} цикл`;
     matrix = matrix2;
     clearCanvas();
     drawMatrix();
