@@ -1,0 +1,87 @@
+body {
+    box-sizing: border-box;
+    background-color: rgb(46, 49, 85);
+}
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    max-width: 300px;
+}
+canvas {
+    background-color: black;
+}
+.settings {
+    margin-top: 10px;
+    display: flex;
+    width: 100%;
+    border: 3px solid black;
+    border-radius: 15%;
+    overflow: hidden;
+}
+
+.column {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.button {
+    padding: 5px;
+    text-align: center;
+}
+
+.column .button {
+    border: none;
+    height: 25px;
+    background-color: green;
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.877);
+}
+
+.column .button:first-child {
+    border-bottom: 1px solid black;
+}
+.column:nth-child(2) {
+    border-right: 1px solid black;
+}
+
+.button:active {
+    background-color: rgb(82, 17, 5);
+}
+
+.deactive {
+    display: none;
+}
+
+.about {
+    width: 100%;
+}
+.about_button {
+    text-align: center;
+    width: 90%;
+    background-color: green;
+    color: rgba(255, 255, 255, 0.877);
+    margin: 10px auto 0px;
+    padding: 5px 0;
+    border: 2px solid black;
+    font-size: 18px;
+    border-radius: 15%;
+}
+.about_button.active {
+    background-color: rgb(7, 95, 112);
+}
+.about_content {
+    background-color: rgb(17, 160, 204);
+    padding: 5px;
+    border: 2px solid black;
+    font-size: 20px;
+}
+.about_list {
+    max-width: 80%;
+    margin: 0px;
+}
+
+.warning {
+    color: rgb(167, 12, 12);
+}

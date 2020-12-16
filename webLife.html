@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TheGameOfLife</title>
+  <link rel="stylesheet" href="styleLife.css">
+</head>
+
+<body>
+  <div class="content">
+    <canvas width="300" height="450"></canvas>
+    <div class="settings">
+      <div class="column deactive">
+        <div class="button" id="size">Размер</div>
+        <div class="button" id='density'>Плотность</div>
+      </div>
+      <div class="column">
+        <div class="button" id="start">Старт</div>
+        <div class="button" id="reset">Сброс</div>
+      </div>
+      <div class="column">
+        <div class="button" id='step'>Шаг</div>
+        <div class="button" id="generate">Генерация</div>
+      </div>
+    </div>
+    <div class="about">
+      <div class="about_button" id="aboutButton">Информация</div>
+      <div class="about_content deactive" id='aboutContent'>
+        <ul class='about_list'>
+          <li>Нарисовать клетки на холсте можно вручную, либо кнопкой. "Генерация" сделает это автоматически случайным
+            образом. Действие доступно даже при запущенной игре.</li>
+          <li>Кнопка "Старт" запускает бесконечный цикл. При нажатии меняется на "Пауза".
+          </li>
+          <li>Кнопка "Шаг" запускает цикл один раз. Предварительно останавливает действующий цикл, если он есть.</li>
+          <li>Кнопка "Сброс" очищает поле и удаляет цикл.</li>
+          <li>Кнопки "Плотность", "Размер" и "Скорость" <span class="warning">недоступны в мобильной версии!</span>
+          </li>
+          <li>Кнопка "Плотность" задает количество ячеек на холсте.</li>
+          <li>Кнопка "Размер" позволяет задать пользовательские размеры холста.</li>
+          <li>Ползунок "Скорость" регулирует частоту цикла.</li>
+          <li><span class='warning'>Внимание!!!</span> Увеличение размера, плотности и скорости
+            могут сильно нагрузить процессор!!</li>
+          <li><a target="_blank" href="https://ru.wikipedia.org/wiki/Игра_«Жизнь»">Статья в википедии</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="templates deactive"></div>
+  </div>
+  <script src="scriptLife.js"></script>
+</body>
+
+</html>
