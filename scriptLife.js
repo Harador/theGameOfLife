@@ -10,6 +10,7 @@ const sizeBut = document.getElementById('size');
 const densityBut = document.getElementById('cellSize');
 const aboutButton = document.getElementById('aboutButton');
 const aboutContent = document.getElementById('aboutContent');
+//let loopCounter = document.getElementById('loop');
 
 //Глобальные параметры
 let canW = 300;
@@ -17,9 +18,9 @@ let canH = 450;
 let cellSize = 10;
 let interval = 100;
 let timer;
+let isTimer = false;
 let wCells = canW / cellSize;
 let hCells = canH / cellSize;
-
 let matrix = getMatrix();
 
 //События
@@ -29,9 +30,10 @@ aboutButton.addEventListener('click', function () {
 })
 resetBut.addEventListener('click', function () {
     clearTimeout(timer);
-    console.log(timer)
+    isTimer = false;
     clearCanvas();
     matrix = getMatrix();
+    startBut.innerHTML = "Старт";
 })
 canvas.addEventListener('mousedown', function (event) {
     brushPaintCells(event);
@@ -43,12 +45,54 @@ canvas.addEventListener('mousedown', function (event) {
     }
 });
 startBut.addEventListener('click', function () {
-    Life();
+    if (!isTimer) {
+        Life()
+        startBut.innerHTML = 'Пауза';
+    } else {
+        startBut.innerHTML = 'Продолжить';
+        clearTimeout(timer);
+        isTimer = false;
+    }
+
 });
 
+stepBut.addEventListener('click', function () {
+    if (isTimer) {
+        clearTimeout(timer);
+        isTimer = false;
+        startBut.innerHTML = 'Продолжить';
+    }
+    Life();
+    clearTimeout(timer);
+    isTimer = false;
+})
+
+generateBut.addEventListener('click', function () {
+    if (isTimer) {
+        clearTimeout(timer);
+        isTimer = false;
+    }
+    clearCanvas();
+    matrix = getMatrix();
+    getRandomMatrix();
+    drawMatrix();
+})
 
 
 //Логика игры
+
+function getRandomMatrix() {
+    let randomChance;
+    do { randomChance = Math.random(); } while (randomChance < 0.5);
+
+    for (let i = 0; i < hCells; i++) {
+        for (let j = 0; j < wCells; j++) {
+            if (Math.random() >= randomChance) {
+                matrix[i][j] = 1;
+            }
+        }
+    }
+}
 
 function Life() {
     let matrix2 = [];
@@ -71,6 +115,7 @@ function Life() {
     matrix = matrix2;
     clearCanvas();
     drawMatrix();
+    isTimer = true;
     timer = setTimeout(Life, interval);
 }
 
