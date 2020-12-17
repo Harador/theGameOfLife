@@ -9,6 +9,35 @@
 </head>
 
 <body>
+  <div class="modal deactive" id="modal">
+    <div class="modal-content">
+      <div class="size-settings">
+        <h2 class="modal-h">Настройки размеров холста</h2>
+        <p class="modal-text">Ввведите размеры ширины и высоты, кратные 100. <br> По-умолчанию обе стороны равны 500.
+        </p>
+        <div class="size-inputs">
+          <input type="text" id='widthInput' value='500'>
+          <input type="text" id='heightInput' value='500'>
+        </div>
+      </div>
+      <div class="density-settings">
+        <h2 class="modal-h">Настройки плотности</h2>
+        <p class='modal-text'>Выберите размер одной клетки в пикселях</p>
+        <select id="densitySelect">
+          <option>1x1 (высокая нагрузка!)</option>
+          <option>2x2</option>
+          <option selected>5x5 (по-умолчанию)</option>
+          <option>10x10</option>
+          <option>25x25</option>
+        </select>
+        <p class='modal-text'>Внимание! Высокие значения размеров холста и плотности уменьшают скорость обработки!
+        </p>
+        <input type="button" class="modal-button" id='submitSettings' value="Применить настройки">
+        <br>
+        <input type="button" class="modal-button" id='closeModal' value="Закрыть окно">
+      </div>
+    </div>
+  </div>
   <div class="content">
     <canvas width="300" height="450"></canvas>
     <div class="speedLoop">
@@ -26,7 +55,7 @@
         <div class="button" id='density'>Плотность</div>
       </div>
       <div class="column">
-        <div class="button" id="start">Старт</div>
+        <div class="button start" id="start">Старт</div>
         <div class="button" id="reset">Сброс</div>
       </div>
       <div class="column">
@@ -44,11 +73,10 @@
           </li>
           <li>Кнопка "Шаг" запускает цикл один раз. Предварительно останавливает действующий цикл, если он есть.</li>
           <li>Кнопка "Сброс" очищает поле и удаляет цикл.</li>
-          <li>Кнопки "Плотность", "Размер" и "Скорость" <span class="warning">недоступны в мобильной версии!</span>
+          <li>Кнопки "Плотность" и "Размер"<span class="warning">недоступны в мобильной версии!</span>
           </li>
-          <li>Кнопка "Плотность" задает количество ячеек на холсте.</li>
-          <li>Кнопка "Размер" позволяет задать пользовательские размеры холста.</li>
-          <li>Ползунок "Скорость" регулирует частоту цикла.</li>
+          <li>Кнопка и "Плотность" и "Размер" вызывают окно с пользовательскими настройками холста</li>
+          <li>Ползунок "Скорость" регулирует частоту цикла (скорость анимации).</li>
           <li><span class='warning'>Внимание!!!</span> Увеличение размера, плотности и скорости
             могут сильно нагрузить процессор!!</li>
           <li><a target="_blank" href="https://ru.wikipedia.org/wiki/Игра_«Жизнь»">Статья в википедии</a></li>

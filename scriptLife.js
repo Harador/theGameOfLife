@@ -7,14 +7,20 @@ const stepBut = document.getElementById('step');
 const resetBut = document.getElementById('reset');
 const generateBut = document.getElementById('generate');
 const sizeBut = document.getElementById('size');
-const densityBut = document.getElementById('cellSize');
+const densityBut = document.getElementById('density');
 const aboutButton = document.getElementById('aboutButton');
 const aboutContent = document.getElementById('aboutContent');
-let loopCounter = document.getElementById('loop');
-let columnPC = document.getElementById('columnPC');
-let speedValue = document.getElementById('speedValue');
-let speedInfo = document.getElementById("speed")
+const loopCounter = document.getElementById('loop');
+const columnPC = document.getElementById('columnPC');
+const speedValue = document.getElementById('speedValue');
+const speedInfo = document.getElementById("speed");
 
+const modal = document.getElementById('modal');
+const widthInput = document.getElementById('widthInput');
+const heightInput = document.getElementById('heightInput');
+const dencitySelect = document.getElementById('densitySelect');
+const submitSettings = document.getElementById('submitSettings');
+const closeModal = document.getElementById('closeModal');
 
 //конфигурации холста
 let canW = 300;
@@ -42,10 +48,56 @@ let loop = 0;
 let matrix = getMatrix();
 
 //События
+submitSettings.addEventListener('click', function () {
+    let w = widthInput.value;
+    let h = heightInput.value;
+    editSize(w, h);
+    let dencity = dencitySelect.value;
+    cellSize = +dencity.split('x')[0];
+    wCells = canW / cellSize;
+    hCells = canH / cellSize;
+    matrix = getMatrix();
+})
+widthInput.addEventListener('blur', function () {
+    let val = this.value;
+    if (val < 100 || val > 2000) {
+        this.value = 500;
+        return 1;
+    }
+    if (val % 100) {
+        this.value = val - val % 100
+    }
+})
+heightInput.addEventListener('blur', function () {
+    let val = this.value;
+    if (val < 100 || val > 2000) {
+        this.value = 500;
+        return 1;
+    }
+    if (val % 100) {
+        this.value = val - val % 100
+    }
+})
+closeModal.addEventListener('click', function () {
+    modal.classList.add('deactive')
+})
 sizeBut.addEventListener('click', function () {
-
+    modal.classList.remove('deactive');
+})
+densityBut.addEventListener('click', function () {
+    modal.classList.remove('deactive');
 })
 speedValue.addEventListener('change', function () {
+    if (speedValue.value == 100) {
+        interval = 1;
+        speedInfo.innerHTML = 'Скорость: 100';
+    } else if (speedValue.value == 0) {
+        interval = 100;
+        speedInfo.innerHTML = 'Скорость: 1';
+    } else {
+        interval = 100 - speedValue.value;
+        speedInfo.innerHTML = 'Скорость: ' + (100 - interval);
+    }
     speedValue.onmousemove = function () {
         if (speedValue.value == 100) {
             interval = 1;
@@ -63,6 +115,9 @@ speedValue.addEventListener('change', function () {
     }
 
 })
+
+
+
 aboutButton.addEventListener('click', function () {
     aboutContent.classList.toggle('deactive');
     aboutButton.classList.toggle('active');
@@ -127,12 +182,11 @@ generateBut.addEventListener('click', function () {
 })
 
 
-//Логика игры
+//Логика игры и другие функции.
 
 function getRandomMatrix() {
     let randomChance;
-    do { randomChance = Math.random(); } while (randomChance < 0.5);
-
+    do { randomChance = Math.random(); } while (randomChance < 0.4 || randomChance > 0.8);
     for (let i = 0; i < hCells; i++) {
         for (let j = 0; j < wCells; j++) {
             if (Math.random() >= randomChance) {
