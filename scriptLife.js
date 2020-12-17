@@ -11,10 +11,27 @@ const densityBut = document.getElementById('cellSize');
 const aboutButton = document.getElementById('aboutButton');
 const aboutContent = document.getElementById('aboutContent');
 let loopCounter = document.getElementById('loop');
+let columnPC = document.getElementById('columnPC');
+let speedValue = document.getElementById('speedValue');
+let speedInfo = document.getElementById("speed")
 
-//Глобальные параметры
+
+//конфигурации холста
 let canW = 300;
 let canH = 450;
+
+if (window.innerWidth > 499) {
+    editSize(500, 500)
+    columnPC.classList.toggle('deactive');
+}
+
+function editSize(w, h) {
+    canvas.width = w;
+    canvas.height = h;
+    canW = w;
+    canH = h;
+}
+
 let cellSize = 5;
 let interval = 50;
 let timer;
@@ -23,7 +40,29 @@ let wCells = canW / cellSize;
 let hCells = canH / cellSize;
 let loop = 0;
 let matrix = getMatrix();
+
 //События
+sizeBut.addEventListener('click', function () {
+
+})
+speedValue.addEventListener('change', function () {
+    speedValue.onmousemove = function () {
+        if (speedValue.value == 100) {
+            interval = 1;
+            speedInfo.innerHTML = 'Скорость: 100';
+        } else if (speedValue.value == 0) {
+            interval = 100;
+            speedInfo.innerHTML = 'Скорость: 1';
+        } else {
+            interval = 100 - speedValue.value;
+            speedInfo.innerHTML = 'Скорость: ' + (100 - interval);
+        }
+    }
+    speedValue.onmouseup = function () {
+        speedValue.onmousemove = null;
+    }
+
+})
 aboutButton.addEventListener('click', function () {
     aboutContent.classList.toggle('deactive');
     aboutButton.classList.toggle('active');

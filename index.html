@@ -11,9 +11,17 @@
 <body>
   <div class="content">
     <canvas width="300" height="450"></canvas>
-    <p id="loop">цикл неактивен</p>
+    <div class="speedLoop">
+      <div class="loop">
+        <p id="loop">цикл неактивен</p>
+      </div>
+      <div class="speedValue">
+        <span class='speed' id="speed">Скорость: 50</span>
+        <input type="range" value='50' id="speedValue">
+      </div>
+    </div>
     <div class="settings">
-      <div class="column deactive">
+      <div class="column deactive" id="columnPC">
         <div class="button" id="size">Размер</div>
         <div class="button" id='density'>Плотность</div>
       </div>

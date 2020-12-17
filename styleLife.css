@@ -41,8 +41,11 @@ canvas {
 .column .button:first-child {
     border-bottom: 1px solid black;
 }
-.column:nth-child(2) {
+.column {
     border-right: 1px solid black;
+}
+.column:last-child {
+    border-right: 0px;
 }
 
 .button:active {
@@ -89,4 +92,72 @@ canvas {
     margin: 5px 0 5px;
     color: rgba(255, 255, 255, 0.849);
     font-size: 18px;
+}
+
+.speedLoop {
+    width: 300px;
+    display: flex;
+    align-items: center;
+}
+#speed {
+    display: block;
+    width: 110px;
+    color: rgba(255, 255, 255, 0.849);
+    font-size: 15px;
+    margin: 0px;
+}
+#speedValue {
+    position: relative;
+    top: -2px;
+}
+.speedValue {
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+}
+.loop {
+    text-align: center;
+    width: 250px;
+}
+
+@media (min-width: 500px) {
+    .content {
+        max-width: 100%;
+    }
+    .settings {
+        width: 100%;
+        border-radius: 0;
+        max-width: 500px;
+    }
+    .about {
+        max-width: 30%;
+        min-width: 500px;
+    }
+    .about_button {
+        border-radius: 0%;
+    }
+    .speedValue {
+        width: 300px;
+        display: flex;
+        flex-direction: row;
+        margin-left: 10px;
+    }
+    .loop {
+        text-align: center;
+        width: 300px;
+    }
+    .speedLoop {
+        width: 600px;
+        display: flex;
+        align-items: center;
+    }
+    #speed {
+        color: rgba(255, 255, 255, 0.849);
+        font-size: 18px;
+        margin-top: 0;
+    }
+    #speedValue {
+        position: relative;
+        top: 1px;
+    }
 }
