@@ -116,8 +116,6 @@ speedValue.addEventListener('change', function () {
 
 })
 
-
-
 aboutButton.addEventListener('click', function () {
     aboutContent.classList.toggle('deactive');
     aboutButton.classList.toggle('active');
@@ -139,6 +137,15 @@ canvas.addEventListener('mousedown', function (event) {
         brushPaintCells(event);
     }
     canvas.onmouseup = function () {
+        canvas.onmousemove = null;
+    }
+});
+canvas.addEventListener('ontouchstart ', function (event) {
+    brushPaintCells(event);
+    canvas.ontouchmove = function (event) {
+        brushPaintCells(event);
+    }
+    canvas.ontouchend = function () {
         canvas.onmousemove = null;
     }
 });
