@@ -14,6 +14,7 @@ const loopCounter = document.getElementById('loop');
 const columnPC = document.getElementById('columnPC');
 const speedValue = document.getElementById('speedValue');
 const speedInfo = document.getElementById("speed");
+const infiniteButton = document.getElementById('infinite');
 
 const modal = document.getElementById('modal');
 const widthInput = document.getElementById('widthInput');
@@ -46,9 +47,15 @@ let wCells = canW / cellSize;
 let hCells = canH / cellSize;
 let loop = 0;
 let matrix = getMatrix();
+let isInfinite = false;
 
 //События
+infiniteButton.addEventListener('click', infinite);
+
 submitSettings.addEventListener('click', function () {
+    if (isTimer || loop > 0) {
+        reset();
+    }
     let w = widthInput.value;
     let h = heightInput.value;
     editSize(w, h);
@@ -58,7 +65,10 @@ submitSettings.addEventListener('click', function () {
     hCells = canH / cellSize;
     matrix = getMatrix();
 })
-widthInput.addEventListener('blur', function () {
+widthInput.addEventListener('blur', checkInput);
+heightInput.addEventListener('blur', checkInput);
+
+function checkInput() {
     let val = this.value;
     if (val < 100 || val > 2000) {
         this.value = 500;
@@ -67,17 +77,7 @@ widthInput.addEventListener('blur', function () {
     if (val % 100) {
         this.value = val - val % 100
     }
-})
-heightInput.addEventListener('blur', function () {
-    let val = this.value;
-    if (val < 100 || val > 2000) {
-        this.value = 500;
-        return 1;
-    }
-    if (val % 100) {
-        this.value = val - val % 100
-    }
-})
+}
 closeModal.addEventListener('click', function () {
     modal.classList.add('deactive')
 })
@@ -88,49 +88,22 @@ densityBut.addEventListener('click', function () {
     modal.classList.remove('deactive');
 })
 speedValue.addEventListener('change', function () {
-    if (speedValue.value == 100) {
-        interval = 1;
-        speedInfo.innerHTML = 'Скорость: 100';
-    } else if (speedValue.value == 0) {
-        interval = 100;
-        speedInfo.innerHTML = 'Скорость: 1';
-    } else {
-        interval = 100 - speedValue.value;
-        speedInfo.innerHTML = 'Скорость: ' + (100 - interval);
-    }
-    speedValue.onmousemove = function () {
-        if (speedValue.value == 100) {
-            interval = 1;
-            speedInfo.innerHTML = 'Скорость: 100';
-        } else if (speedValue.value == 0) {
-            interval = 100;
-            speedInfo.innerHTML = 'Скорость: 1';
-        } else {
-            interval = 100 - speedValue.value;
-            speedInfo.innerHTML = 'Скорость: ' + (100 - interval);
-        }
-    }
+    getSpeed();
+    speedValue.onmousemove = getSpeed;
     speedValue.onmouseup = function () {
         speedValue.onmousemove = null;
     }
-
+    speedValue.ontouchmove = getSpeed;
+    speedValue.ontouchend = function () {
+        speedValue.ontouchmove = null;
+    }
 })
 
 aboutButton.addEventListener('click', function () {
     aboutContent.classList.toggle('deactive');
     aboutButton.classList.toggle('active');
 })
-resetBut.addEventListener('click', function () {
-    clearTimeout(timer);
-    isTimer = false;
-    clearCanvas();
-    matrix = getMatrix();
-    startBut.innerHTML = "Старт";
-    if (loop > 0) {
-        loop = 0;
-        loopCounter.innerHTML = 'цикл неактивен';
-    }
-})
+resetBut.addEventListener('click', reset)
 canvas.addEventListener('mousedown', function (event) {
     brushPaintCells(event);
     canvas.onmousemove = function (event) {
@@ -146,7 +119,7 @@ canvas.addEventListener('ontouchstart ', function (event) {
         brushPaintCells(event);
     }
     canvas.ontouchend = function () {
-        canvas.onmousemove = null;
+        canvas.ontouchmove = null;
     }
 });
 startBut.addEventListener('click', function () {
@@ -174,12 +147,9 @@ stepBut.addEventListener('click', function () {
 
 generateBut.addEventListener('click', function () {
     if (isTimer) {
-        clearTimeout(timer);
-        isTimer = false;
+        reset();
     }
-    clearCanvas();
-    matrix = getMatrix();
-    getRandomMatrix();
+    getRandomMatrix(0.4, 0.8);
     drawMatrix();
     if (loop > 0) {
         loop = 0;
@@ -190,10 +160,55 @@ generateBut.addEventListener('click', function () {
 
 
 //Логика игры и другие функции.
+function getSpeed() {
+    if (speedValue.value == 100) {
+        interval = 1;
+        speedInfo.innerHTML = 'Скорость: 100';
+    } else if (speedValue.value == 0) {
+        interval = 100;
+        speedInfo.innerHTML = 'Скорость: 1';
+    } else {
+        interval = 100 - speedValue.value;
+        speedInfo.innerHTML = 'Скорость: ' + (100 - interval);
+    }
+}
+function reset() {
+    clearTimeout(timer);
+    isTimer = false;
+    clearCanvas();
+    matrix = getMatrix();
+    startBut.innerHTML = "Старт";
+    if (loop > 0) {
+        loop = 0;
+        loopCounter.innerHTML = 'цикл неактивен';
+    }
+    if (isInfinite) {
+        infiniteButton.classList.remove('activeInfinity');
+        isInfinite = false;
+    }
+}
+function infinite() {
+    if (isInfinite) {
+        isInfinite = false;
+        infiniteButton.classList.remove('activeInfinity');
+    } else {
+        infiniteButton.classList.add('activeInfinity');
+        if (loop > 0) {
+            loop = 0;
+            clearTimeout(timer);
+        }
+        startBut.innerHTML = 'Пауза';
+        getRandomMatrix(0.4, 0.7);
+        clearCanvas();
+        isInfinite = true;
+        Life();
 
-function getRandomMatrix() {
+    }
+}
+
+function getRandomMatrix(min, max) {
     let randomChance;
-    do { randomChance = Math.random(); } while (randomChance < 0.4 || randomChance > 0.8);
+    do { randomChance = Math.random(); } while (randomChance < min || randomChance > max);
     for (let i = 0; i < hCells; i++) {
         for (let j = 0; j < wCells; j++) {
             if (Math.random() >= randomChance) {
@@ -223,7 +238,15 @@ function Life() {
     }
     loop += 1;
     loopCounter.innerHTML = `${loop} цикл`;
-    matrix = matrix2;
+    if (isInfinite) {
+        if (loop % 700 == 0) {
+            getRandomMatrix(0.8, 1);
+        } else {
+            matrix = matrix2;
+        }
+    } else {
+        matrix = matrix2;
+    }
     clearCanvas();
     drawMatrix();
     isTimer = true;
