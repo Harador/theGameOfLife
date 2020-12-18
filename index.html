@@ -32,6 +32,10 @@
         </select>
         <p class='modal-text'>Внимание! Высокие значения размеров холста и плотности уменьшают скорость обработки!
         </p>
+        <h2 class="modal-h">Настройки бесконечного режима</h2>
+        <p class="modal-text">Частота случайной генерации (в циклах)</p>
+        <input type="text" value='700' id='frequencyRandomInput'>
+        <br>
         <input type="button" class="modal-button" id='submitSettings' value="Применить настройки">
         <br>
         <input type="button" class="modal-button" id='closeModal' value="Закрыть окно">
@@ -64,7 +68,9 @@
       </div>
     </div>
     <div class="infiniteMod">
+      <input type="color" title="цвет холста" id="canvasColor">
       <div class="infiniteButton" id="infinite">Бесконечный режим</div>
+      <input type="color" title="цвет клеток" id="cellColor" value="#008000">
     </div>
     <div class="about">
       <div class="about_button" id="aboutButton">Информация</div>
@@ -85,8 +91,6 @@
           </li>
           <li>Кнопка и "Плотность" и "Размер" вызывают окно с пользовательскими настройками холста</li>
           <li>Ползунок "Скорость" регулирует частоту цикла (скорость анимации).</li>
-          <li><span class='warning'>Внимание!!!</span> Увеличение размера, плотности и скорости
-            могут сильно нагрузить процессор!!</li>
           <li><a target="_blank" href="https://ru.wikipedia.org/wiki/Игра_«Жизнь»">Статья в википедии</a></li>
         </ul>
       </div>

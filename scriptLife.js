@@ -15,11 +15,14 @@ const columnPC = document.getElementById('columnPC');
 const speedValue = document.getElementById('speedValue');
 const speedInfo = document.getElementById("speed");
 const infiniteButton = document.getElementById('infinite');
+const canvasColorButton = document.getElementById('canvasColor');
+const cellColorButton = document.getElementById('cellColor');
 
 const modal = document.getElementById('modal');
 const widthInput = document.getElementById('widthInput');
 const heightInput = document.getElementById('heightInput');
 const dencitySelect = document.getElementById('densitySelect');
+const frequencyRandomInput = document.getElementById('frequencyRandomInput');
 const submitSettings = document.getElementById('submitSettings');
 const closeModal = document.getElementById('closeModal');
 
@@ -38,7 +41,8 @@ function editSize(w, h) {
     canW = w;
     canH = h;
 }
-
+let frequencyRandom = 700;
+let cellColor = 'green';
 let cellSize = 5;
 let interval = 50;
 let timer;
@@ -50,6 +54,14 @@ let matrix = getMatrix();
 let isInfinite = false;
 
 //События
+cellColorButton.addEventListener('change', function () {
+    cellColor = cellColorButton.value;
+    drawMatrix();
+
+})
+canvasColorButton.addEventListener('change', function () {
+    canvas.style.backgroundColor = canvasColorButton.value;
+})
 infiniteButton.addEventListener('click', infinite);
 
 submitSettings.addEventListener('click', function () {
@@ -64,6 +76,11 @@ submitSettings.addEventListener('click', function () {
     wCells = canW / cellSize;
     hCells = canH / cellSize;
     matrix = getMatrix();
+    frequencyRandom = frequencyRandomInput.value;
+    if (h > 500) {
+        modal.style.height = +h + 300 + 'px';
+    }
+
 })
 widthInput.addEventListener('blur', checkInput);
 heightInput.addEventListener('blur', checkInput);
@@ -239,7 +256,7 @@ function Life() {
     loop += 1;
     loopCounter.innerHTML = `${loop} цикл`;
     if (isInfinite) {
-        if (loop % 700 == 0) {
+        if (loop % frequencyRandom == 0) {
             getRandomMatrix(0.8, 1);
         } else {
             matrix = matrix2;
@@ -294,7 +311,7 @@ function brushPaintCells() {
 }
 
 function drawCell(x, y) {
-    ctx.fillStyle = 'green';
+    ctx.fillStyle = cellColor;
     ctx.fillRect(x, y, cellSize, cellSize)
 }
 
@@ -305,7 +322,7 @@ function clearCanvas() {
 
 function drawGrid() {
     ctx.lineWidth = '0.3';
-    ctx.strokeStyle = 'green';
+    ctx.strokeStyle = cellColor;
     for (let i = cellSize; i < canW; i += cellSize) {
         ctx.beginPath();
         ctx.moveTo(i, 0);
