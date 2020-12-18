@@ -75,6 +75,7 @@ canvas {
     border-radius: 30%;
     padding: 10px 10px;
     margin: 0 10px 0;
+    text-align: center;
 }
 .infiniteButton:hover {
     background-image: linear-gradient(60deg, #9a4dad 10%, #7c2f8f 50%, #4e0f5e 100%);
